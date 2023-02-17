@@ -1,0 +1,1 @@
+The main objective of this project is to learn about arithmetic operators, logical operators, relational operators, boolean operators, declare variablesand assign values to variables, comments and loops in **C Programming**
