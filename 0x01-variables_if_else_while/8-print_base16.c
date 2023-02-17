@@ -10,7 +10,7 @@ int main(void)
 	int n;
 	char hexa;
 
-	for (n = 18; n < 28; n++)
+	for (n = 0; n < 10; n++)
 	{
 		putchar(n);
 	}
