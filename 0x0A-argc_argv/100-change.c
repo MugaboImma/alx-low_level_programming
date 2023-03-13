@@ -30,11 +30,12 @@ int main(int argc, char **argv)
 		{
 			for (n = 0; n < sizeof(currency[n]); n++)
 			{
-			      if (total >= currency[n])
-			      {
-				      count += total / currency[n];
-				      total = total % currency[n];
-			      }
+				if (total >= currency[n])
+				{
+					count += total / currency[n];
+					total = total % currency[n];
+				}
+
 			}
 
 		}
