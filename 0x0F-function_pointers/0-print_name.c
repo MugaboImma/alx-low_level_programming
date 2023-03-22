@@ -1,11 +1,14 @@
-#ifndef FUNCTION_POINTERS_
-#define FUNCTION_POINTERS_
+#include "function_pointers.h"
 
-#include <stddef.h>
-
-int _putchar(char c);
-void print_name(char *name, void (*f)(char *));
-void array_iterator(int *array, size_t size, void (*action)(int));
-int int_index(int *array, int size, int (*cmp)(int));
-
-#endif/* FUNCTION_POINTERS_H*/
+/**
+ * print_name - a function that prints a name
+ * @name: the name given
+ * @f: function of name
+ *
+ * Return: void
+ */
+void print_name(char *name, void (*f)(char *))
+{
+	if (name != NULL && f != NULL)
+		f(name);
+}
