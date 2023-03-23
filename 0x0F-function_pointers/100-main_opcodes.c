@@ -18,7 +18,7 @@ void print_opcodes(char *a, int n)
 		if (i < n - 1)
 			printf(" ");
 	}
-	print("\n");
+	printf("\n");
 }
 
 /**
