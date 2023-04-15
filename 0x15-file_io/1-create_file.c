@@ -20,11 +20,11 @@ int create_file(const char *filename, char *text_content)
 		for (n = 0; text_content[n];)
 			n++;
 	}
-	op_file = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	text_file = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 
 	if (text_file == -1)
 		return (-1);
-	write(text_content, text_file, n);
+	write(text_file, text_content, n);
 
 	return (1);
 }
