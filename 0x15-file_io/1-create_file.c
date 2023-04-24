@@ -24,9 +24,9 @@ int create_file(const char *filename, char *text_content)
 		return (-1);
 	for (n_chars = 0; text_content[n_chars]; n_chars++)
 		;
-	rw_file = write(text_file, text_content, n_chars);
+	wr_file = write(text_file, text_content, n_chars);
 
-	if (rw_file == -1)
+	if (wr_file == -1)
 		return (-1);
 
 	fclose(text_file);
