@@ -1,5 +1,4 @@
 #include "main.h"
-#include <stdio.h>
 
 /**
  * elf_check - A program that displays the info contained in ELF file
@@ -36,11 +35,11 @@ void pri_magic(unsigned char *p_elf)
 
 	printf(" Magic: ");
 
-	for (a = 0; a < WI_NIDENT; a++)
+	for (a = 0; a < EI_NIDENT; a++)
 	{
 		printf("%02x", p_elf[a]);
 
-		if (x == EI_NIDENT - 1)
+		if (a == EI_NIDENT - 1)
 			printf("\n");
 		else
 			printf(" ");
@@ -104,7 +103,7 @@ void pri_data(unsigned char *p_elf)
 void pri_version(unsigned char *p_elf)
 {
 	printf("  Version:                           %d",
-	       e_ident[EI_VERSION]);
+	       p_elf[EI_VERSION]);
 	switch (p_elf[EI_VERSION])
 	{
 	case EV_CURRENT:
@@ -124,7 +123,7 @@ void pri_version(unsigned char *p_elf)
 void pri_abi(unsigned char *p_elf)
 {
 	printf("  ABI Version:                       %d\n",
-	       e_ident[EI_ABIVERSION]);
+	       p_elf[EI_ABIVERSION]);
 }
 
 /**
@@ -248,9 +247,9 @@ void pri_entry(unsigned long int elf_entry, unsigned char *p_elf)
  * Description: if a file is not elf or func fails - exit 98
  *
  */
-int main(int __attribute__((unused__)) argc, char *argv[])
+int main(int __attribute__((__unused__)) argc, char *argv[])
 {
-	Elf64_Ehdr *header;
+	Elf64_Ehdr *h_file;
 	int op_file, wr_file;
 
 	op_file = open(argv[1], O_RDONLY);
@@ -275,17 +274,17 @@ int main(int __attribute__((unused__)) argc, char *argv[])
 		exit(98);
 	}
 
-	check_elf(h_file->p_elf);
+	elf_check(h_file->e_ident);
 	printf("ELF Head:\n");
-	pri_magic(h_file->p_elf);
-	pri_class(h_file->p_elf);
-	pri_data(h_file->p_elf);
-	pri_data(h_file->p_elf);
-	pri_version(h_file->p_elf);
-	pri_osabi(h_file->p_elf);
-	pri_abi(h_file->p_elf);
-	pri_type(h_file->elf_entry, h_file->p_elf);
-	pri_entry(h_file->elf_entry, h_file->p_elf);
+	pri_magic(h_file->e_ident);
+	pri_class(h_file->e_ident);
+	pri_data(h_file->e_ident);
+	pri_data(h_file->e_ident);
+	pri_version(h_file->e_ident);
+	pri_osabi(h_file->e_ident);
+	pri_abi(h_file->e_ident);
+	pri_type(h_file->e_type, h_file->e_ident);
+	pri_entry(h_file->e_entry, h_file->e_ident);
 
 	free(h_file);
 	close_elf(op_file);
