@@ -13,7 +13,10 @@ void elf_check(unsigned char *p_elf)
 
 	for (i = 0; i < 4; i++)
 	{
-		if (p_elf[i] != 127 && p_elf[i] != 'E' && p_elf[i] != 'L' && p_elf[i] != 'F')
+		if (p_elf[i] != 127 &&
+		    p_elf[i] != 'E' &&
+		    p_elf[i] != 'L' &&
+		    p_elf[i] != 'F')
 		{
 			dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
 			exit(98);
