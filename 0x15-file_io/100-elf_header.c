@@ -2,21 +2,21 @@
 
 /**
  * elf_check - A program that displays the info contained in ELF file
- * @p_elf: A pointer to an array of the ELF
+ * @e_ident: A pointer to an array of the ELF
  *
  * Desc: exit code 98, if a file is not ELF file
  */
 
-void elf_check(unsigned char *p_elf)
+void elf_check(unsigned char *e_ident)
 {
 	int i;
 
 	for (i = 0; i < 4; i++)
 	{
-		if (p_elf[i] != 127 &&
-		    p_elf[i] != 'E' &&
-		    p_elf[i] != 'L' &&
-		    p_elf[i] != 'F')
+		if (e_ident[i] != 127 &&
+		    e_ident[i] != 'E' &&
+		    e_ident[i] != 'L' &&
+		    e_ident[i] != 'F')
 		{
 			dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
 			exit(98);
@@ -28,11 +28,11 @@ void elf_check(unsigned char *p_elf)
 
 /**
  * pri_magic - A function that prints the magic numbers of ELF
- * @p_elf: A pointer to the array containing ELF
+ * @e_ident: A pointer to the array containing ELF
  *
  * Descr: Magic numbers are separated by spaces
  */
-void pri_magic(unsigned char *p_elf)
+void pri_magic(unsigned char *e_ident)
 {
 	int a;
 
@@ -40,7 +40,7 @@ void pri_magic(unsigned char *p_elf)
 
 	for (a = 0; a < EI_NIDENT; a++)
 	{
-		printf("%02x", p_elf[a]);
+		printf("%02x", e_ident[a]);
 
 		if (a == EI_NIDENT - 1)
 			printf("\n");
@@ -52,14 +52,14 @@ void pri_magic(unsigned char *p_elf)
 
 /**
  * pri_class -  A function that prints class of ELF
- * @p_elf: A pointer to the array containing ELF
+ * @e_ident: A pointer to the array containing ELF
  *
  */
-void pri_class(unsigned char *p_elf)
+void pri_class(unsigned char *e_ident)
 {
 	printf("  Class:                             ");
 
-	switch (p_elf[EI_CLASS])
+	switch (e_ident[EI_CLASS])
 	{
 	case ELFCLASSNONE:
 		printf("none\n");
@@ -71,20 +71,20 @@ void pri_class(unsigned char *p_elf)
 		printf("ELF64\n");
 		break;
 	default:
-		printf("<unkown: %x>\n", p_elf[EI_CLASS]);
+		printf("<unkown: %x>\n", e_ident[EI_CLASS]);
 	}
 }
 
 /**
  * pri_data - A function that prints the data of ELF
- * @p_elf: A pointer to the array containing ELF
+ * @e_ident: A pointer to the array containing ELF
  *
  */
-void pri_data(unsigned char *p_elf)
+void pri_data(unsigned char *e_ident)
 {
 	printf("  Data:                              ");
 
-	switch (p_elf[EI_DATA])
+	switch (e_ident[EI_DATA])
 	{
 	case ELFDATANONE:
 		printf("none\n");
@@ -100,14 +100,14 @@ void pri_data(unsigned char *p_elf)
 
 /**
  * pri_version - A function that prints a version of ELF
- * @p_elf: A pointer to the array containing ELF
+ * @e_ident: A pointer to the array containing ELF
  *
  */
-void pri_version(unsigned char *p_elf)
+void pri_version(unsigned char *e_ident)
 {
 	printf("  Version:                           %d",
-	       p_elf[EI_VERSION]);
-	switch (p_elf[EI_VERSION])
+	       e_ident[EI_VERSION]);
+	switch (e_ident[EI_VERSION])
 	{
 	case EV_CURRENT:
 		printf(" (current)\n");
@@ -120,24 +120,24 @@ void pri_version(unsigned char *p_elf)
 
 /**
  * pri_abi - A function that prints ABI Version of ELF
- * @p_elf: A pointer to the array containing ELF
+ * @e_ident: A pointer to the array containing ELF
  *
  */
-void pri_abi(unsigned char *p_elf)
+void pri_abi(unsigned char *e_ident)
 {
 	printf("  ABI Version:                       %d\n",
-	       p_elf[EI_ABIVERSION]);
+	       e_ident[EI_ABIVERSION]);
 }
 
 /**
  * pri_osabi -  A function that prints OS/ABI of elf
- * @p_elf: A pointer to an array that have ELF
+ * @e_ident: A pointer to an array that have ELF
  *
  */
-void pri_osabi(unsigned char *p_elf)
+void pri_osabi(unsigned char *e_ident)
 {
 	printf("  OS/ABI:                            ");
-	switch (p_elf[EI_OSABI])
+	switch (e_ident[EI_OSABI])
 	{
 	case ELFOSABI_NONE:
 		printf("UNIX - System V\n");
@@ -167,24 +167,24 @@ void pri_osabi(unsigned char *p_elf)
 		printf("Standalone App\n");
 		break;
 	default:
-		printf("<unknown: %x>\n", p_elf[EI_OSABI]);
+		printf("<unknown: %x>\n", e_ident[EI_OSABI]);
 
 	}
 }
 
 /**
  * pri_type - A function that prints the type of ELF
- * @elf_type: The elf type
- * @p_elf: A pointer to an array that has ELF
+ * @e_type: The elf type
+ * @e_ident: A pointer to an array that has ELF
  *
  */
-void pri_type(unsigned int elf_type, unsigned char *p_elf)
+void pri_type(unsigned int e_type, unsigned char *e_ident)
 {
-	if (p_elf[EI_DATA] == ELFDATA2MSB)
-		elf_type >>= 8;
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
+		e_type >>= 8;
 	printf("  Type:                              ");
 
-	switch (elf_type)
+	switch (e_type)
 	{
 	case ET_NONE:
 		printf("NONE (None)\n");
@@ -202,7 +202,7 @@ void pri_type(unsigned int elf_type, unsigned char *p_elf)
 		printf("CORE (Core file)\n");
 		break;
 	default:
-		printf("<unknown: %x>\n", elf_type);
+		printf("<unknown: %x>\n", e_type);
 	}
 }
 
@@ -224,18 +224,18 @@ void close_elf(int desc_elf)
 /**
  * pri_entry - A function that prints the entry point of ELF
  * @elf_entry: The address of ELF entry
- * @p_elf:  A pointer to an array that has ELF
+ * @e_ident:  A pointer to an array that has ELF
  */
-void pri_entry(unsigned long int elf_entry, unsigned char *p_elf)
+void pri_entry(unsigned long int elf_entry, unsigned char *e_ident)
 {
 	printf("  Entry point address:               ");
-	if (p_elf[EI_DATA] == ELFDATA2MSB)
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
 	{
 		elf_entry = ((elf_entry << 8) & 0xFF00FF00) |
 			((elf_entry >> 8) & 0xFF00FF);
 		elf_entry = (elf_entry << 16) | (elf_entry >> 16);
 	}
-	if (p_elf[EI_CLASS] == ELFCLASS32)
+	if (e_ident[EI_CLASS] == ELFCLASS32)
 		printf("%#x\n", (unsigned int)elf_entry);
 	else
 		printf("%#lx\n", elf_entry);
