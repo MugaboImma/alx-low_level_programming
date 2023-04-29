@@ -1,4 +1,21 @@
-#include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <elf.h>
+
+void elf_check(unsigned char *e_ident);
+void pri_magic(unsigned char *e_ident);
+void pri_class(unsigned char *e_ident);
+void pri_data(unsigned char *e_ident);
+void pri_version(unsigned char *e_ident);
+void pri_abi(unsigned char *e_ident);
+void pri_osabi(unsigned char *e_ident);
+void pri_type(unsigned int e_type, unsigned char *e_ident);
+void close_elf(int desc_elf);
+void pri_entry(unsigned long int elf_entry, unsigned char *e_ident);
 
 /**
  * elf_check - A program that displays the info contained in ELF file
@@ -57,7 +74,7 @@ void pri_magic(unsigned char *e_ident)
  */
 void pri_class(unsigned char *e_ident)
 {
-	printf("  Class:                             ");
+	printf(" Class: ");
 
 	switch (e_ident[EI_CLASS])
 	{
