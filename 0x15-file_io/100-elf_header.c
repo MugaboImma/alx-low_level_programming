@@ -4,7 +4,7 @@
  * elf_check - A program that displays the info contained in ELF file
  * @e_ident: A pointer to an array of the ELF
  *
- * Desc: exit code 98, if a file is not ELF file
+ * Description: exit code 98, if a file is not ELF file
  */
 
 void elf_check(unsigned char *e_ident)
@@ -30,7 +30,7 @@ void elf_check(unsigned char *e_ident)
  * pri_magic - A function that prints the magic numbers of ELF
  * @e_ident: A pointer to the array containing ELF
  *
- * Descr: Magic numbers are separated by spaces
+ * Description: Magic numbers are separated by spaces
  */
 void pri_magic(unsigned char *e_ident)
 {
@@ -82,19 +82,21 @@ void pri_class(unsigned char *e_ident)
  */
 void pri_data(unsigned char *e_ident)
 {
-	printf("  Data:                              ");
+	printf(" Data: ");
 
 	switch (e_ident[EI_DATA])
 	{
 	case ELFDATANONE:
 		printf("none\n");
 		break;
-	case ELFDATA2LSB:
-		printf("2's complement, little endian\n");
-		break;
 	case ELFDATA2MSB:
 		printf("2's complement, big endian\n");
 		break;
+	case ELFDATA2LSB:
+		printf("2's complement, little endian\n");
+		break;
+	default:
+		printf("<unknown:%x>\n", e_ident[EI_CLASS]);
 	}
 }
 
@@ -105,8 +107,8 @@ void pri_data(unsigned char *e_ident)
  */
 void pri_version(unsigned char *e_ident)
 {
-	printf("  Version:                           %d",
-	       e_ident[EI_VERSION]);
+	printf("  Version: %d",
+			e_ident[EI_VERSION]);
 	switch (e_ident[EI_VERSION])
 	{
 	case EV_CURRENT:
@@ -125,8 +127,8 @@ void pri_version(unsigned char *e_ident)
  */
 void pri_abi(unsigned char *e_ident)
 {
-	printf("  ABI Version:                       %d\n",
-	       e_ident[EI_ABIVERSION]);
+	printf(" ABI Version: %d\n",
+			e_ident[EI_ABIVERSION]);
 }
 
 /**
@@ -136,7 +138,7 @@ void pri_abi(unsigned char *e_ident)
  */
 void pri_osabi(unsigned char *e_ident)
 {
-	printf("  OS/ABI:                            ");
+	printf(" OS/ABI: ");
 	switch (e_ident[EI_OSABI])
 	{
 	case ELFOSABI_NONE:
@@ -182,7 +184,7 @@ void pri_type(unsigned int e_type, unsigned char *e_ident)
 {
 	if (e_ident[EI_DATA] == ELFDATA2MSB)
 		e_type >>= 8;
-	printf("  Type:                              ");
+	printf(" Type: ");
 
 	switch (e_type)
 	{
@@ -228,7 +230,7 @@ void close_elf(int desc_elf)
  */
 void pri_entry(unsigned long int elf_entry, unsigned char *e_ident)
 {
-	printf("  Entry point address:               ");
+	printf(" Entry point address: ");
 	if (e_ident[EI_DATA] == ELFDATA2MSB)
 	{
 		elf_entry = ((elf_entry << 8) & 0xFF00FF00) |
